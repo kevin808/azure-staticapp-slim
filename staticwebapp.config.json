@@ -1,0 +1,47 @@
+{
+    "navigationFallback": {
+        "rewrite": "/index.html"
+    },
+    "routes": [
+        {
+            "route": "/mic-control-center*",
+            "allowedRoles": ["authenticated"]
+        },
+        {
+            "route": "/mic-control-center/*",
+            "allowedRoles": ["authenticated"]
+        },
+        {
+            "route": "/login",
+            "rewrite": "/.auth/login/tokenmaster"
+        }
+    ],
+    "responseOverrides": {
+        "401": {
+            "statusCode": 302,
+            "redirect": "/login"
+        }
+    },
+    "auth": {
+        "identityProviders": {
+            "customOpenIdConnectProviders": {
+                "tokenmaster": {
+                    "registration": {
+                        "clientIdSettingName": "MCCPRODTOKENMASTERCLIENTID",
+                        "clientCredential": {
+                            "clientSecretSettingName": "MCCPRODTOKENMASTERCLIENTPASSWORD"
+                        },
+                        "openIdConnectConfiguration": {
+                            "wellKnownOpenIdConfiguration": "https://ssoalpha.dvb.corpinter.net/v1/.well-known/openid-configuration"
+                        }
+                    },
+                    "login": {
+                        "nameClaimType": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+                        "scopes": [],
+                        "loginParameterNames": []
+                    }
+                }
+            }
+        }
+    }
+}
